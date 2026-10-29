@@ -1,0 +1,119 @@
+# Delta Learning Rule
+import numpy as np
+# Input patterns
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+# Target output for AND gate
+T = np.array([0, 0, 0, 1])
+
+# Learning rate
+eta = 0.1
+
+# Initialize weights and bias
+weights = np.zeros(2)
+bias = 0
+
+# Number of epochs
+epochs = 20
+
+# Delta Learning Rule
+for epoch in range(epochs):
+
+    total_error = 0
+
+    for x, t in zip(X, T):
+
+        # Calculate actual output
+        y = np.dot(weights, x) + bias
+
+        # Calculate error
+        error = t - y
+
+        # Update weights
+        weights = weights + eta * error * x
+
+        # Update bias
+        bias = bias + eta * error
+
+        total_error += error ** 2
+
+    print(f"Epoch {epoch + 1}: MSE = {total_error / len(X):.4f}")
+
+# Display final weights
+print("\nFinal Weights:", weights)
+print("Final Bias:", bias)
+
+# Test the trained network
+print("\nPredictions:")
+
+for x in X:
+    y = np.dot(weights, x) + bias
+    print(x, "->", round(y, 3))
+
+# Hebbian Learning Rule
+import numpy as np
+
+# Bipolar input patterns for OR gate
+X = np.array([
+    [-1, -1],
+    [-1,  1],
+    [ 1, -1],
+    [ 1,  1]
+])
+
+# Bipolar target outputs
+T = np.array([-1, 1, 1, 1])
+
+# Learning rate
+eta = 1
+
+# Initialize weights and bias
+weights = np.zeros(2)
+bias = 0
+
+print("Initial Weights:", weights)
+print("Initial Bias:", bias)
+
+# Hebbian Learning
+for x, t in zip(X, T):
+
+    # Calculate output
+    net = np.dot(weights, x) + bias
+
+    if net >= 0:
+        y = 1
+    else:
+        y = -1
+
+    # Update weights
+    weights = weights + eta * x * t
+
+    # Update bias
+    bias = bias + eta * t
+
+    print("\nInput:", x)
+    print("Target:", t)
+    print("Output:", y)
+    print("Updated Weights:", weights)
+    print("Updated Bias:", bias)
+
+print("\nFinal Weights:", weights)
+print("Final Bias:", bias)
+
+# Test the network
+print("\nTesting:")
+
+for x in X:
+    net = np.dot(weights, x) + bias
+
+    if net >= 0:
+        y = 1
+    else:
+        y = -1
+
+    print(x, "->", y)
